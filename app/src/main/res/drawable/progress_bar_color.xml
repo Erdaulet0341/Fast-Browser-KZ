@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Define the background of the ProgressBar -->
+    <item android:id="@android:id/background">
+        <shape>
+            <solid android:color="#CCCCCC" />
+        </shape>
+    </item>
+
+    <!-- Define the progress of the ProgressBar -->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <solid android:color="#034FF4" /> <!-- Replace with your desired color -->
+            </shape>
+        </clip>
+    </item>
+</layer-list>
