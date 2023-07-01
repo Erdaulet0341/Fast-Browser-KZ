@@ -4,10 +4,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +25,7 @@ import com.main.room.HistoryDao;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -34,6 +40,7 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadLocale();
         setContentView(R.layout.activity_history);
 
         exit = findViewById(R.id.exitHistory);
@@ -54,7 +61,7 @@ public class HistoryActivity extends AppCompatActivity {
                 List<History> histories = historyDao.getAll();
                 Collections.reverse(histories);
                 if(histories.isEmpty()){
-                    empty.setText("Empty History...");
+                    empty.setText(getString(R.string.empty_history));
                 }
                 adapter = new HistoryAdapter(histories, context);
                 recyclerView.setAdapter(adapter);
@@ -73,9 +80,9 @@ public class HistoryActivity extends AppCompatActivity {
         deleteAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                builder.setTitle("Clear all histories?")
-                        .setMessage("Are you sure you want to delete all histories? It cannot be restored!")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setTitle(getString(R.string.title_delete))
+                        .setMessage(getString(R.string.sentence_delete))
+                        .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 new Thread(new Runnable() {
@@ -88,7 +95,7 @@ public class HistoryActivity extends AppCompatActivity {
                                 }).start();
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.cancel();
@@ -124,10 +131,10 @@ public class HistoryActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     if (filteredList.size() == 0) {
-                                        Toast.makeText(context, "Could not find any URL!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, getString(R.string.can_not_find), Toast.LENGTH_SHORT).show();
                                         adapter = new HistoryAdapter(filteredList, context);
                                         recyclerView.setAdapter(adapter);
-                                        empty.setText("Could not find any URL!");
+                                        empty.setText(getString(R.string.can_not_find));
 
                                     } else {
                                         adapter = new HistoryAdapter(filteredList, context);
@@ -146,7 +153,20 @@ public class HistoryActivity extends AppCompatActivity {
             }
         });
     }
+    void setLocale(String lan){
+        Locale locale = new Locale(lan);
+        Configuration configuration = new Configuration();
+        Locale.setDefault(locale);
+        configuration.setLocale(locale);
+        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
+    }
 
+    void loadLocale(){
+        SharedPreferences pre = getSharedPreferences("Language_set", Activity.MODE_PRIVATE);
+        String lan = pre.getString("app_language", Locale.getDefault().getLanguage());
+        setLocale(lan);
+        Log.d("fnds",lan );
+    }
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(HistoryActivity.this, MainActivity.class);

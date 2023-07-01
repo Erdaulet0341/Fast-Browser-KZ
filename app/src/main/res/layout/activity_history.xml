@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="18dp"
-        android:text="History"
+        android:text="@string/history"
         android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +32,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:queryHint="Search by URL here..." />
+        app:queryHint="@string/search_by_url" />
 
     <ImageView
         android:id="@+id/exitHistory"
@@ -83,7 +83,7 @@
         android:shadowDx="1"
         android:shadowDy="1"
         android:shadowRadius="1"
-        android:text="Clear all histories"
+        android:text="@string/clear_all_histories"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,14 +1,18 @@
 package com.main;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     EditText inputText;
-    ImageView clearText;
+    ImageView clearText, languageBtn;
     WebView webView;
     ProgressBar progressBar;
     ImageView urlBack, urlForward, urlRefresh, urlShare, urlHistory, goHome;
@@ -47,17 +51,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadLocale();
         setContentView(R.layout.activity_main);
-
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "my-database").build();
-        HistoryDao historyDao = db.historyDao();
-
-        sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, MODE_PRIVATE);
 
         inputText = findViewById(R.id.inputURL);
         clearText = findViewById(R.id.clearIcon);
         webView = findViewById(R.id.webView);
+        languageBtn = findViewById(R.id.language);
         progressBar = findViewById(R.id.progressBar);
         urlBack = findViewById(R.id.urlBack);
         urlForward = findViewById(R.id.urlForward);
@@ -65,16 +65,23 @@ public class MainActivity extends AppCompatActivity {
         urlShare = findViewById(R.id.urlShare);
         urlHistory = findViewById(R.id.urlHistory);
         goHome = findViewById(R.id.goHome);
-
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setBuiltInZoomControls(true);
         webSettings.setDisplayZoomControls(false);
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
-
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptThirdPartyCookies(webView, true);
+
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "my-database").build();
+        HistoryDao historyDao = db.historyDao();
+
+        sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences pre = getSharedPreferences("Language_set", Activity.MODE_PRIVATE);
+        Context context = this;
+        imageLan(pre.getString("app_language", Locale.getDefault().getLanguage()));
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -99,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         History h = new History();
                         List<History> historiess = historyDao.getAll();
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, HH:mm", Locale.getDefault());
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy, HH:mm", Locale.getDefault());
                         String currentTime = sdf.format(new Date());
                         h.time = currentTime;
                         h.url = url;
@@ -202,7 +209,58 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        languageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String[] languages = {"English", "Russian", "Kazakh"};
+                AlertDialog.Builder diolag = new AlertDialog.Builder(context);
+                diolag.setTitle("Choose Language");
+                diolag.setSingleChoiceItems(languages, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(i == 0){
+                            setLocale("en");
+                            recreate();
+                        }
+                        else if(i == 1){
+                            setLocale("ru");
+                            recreate();
+                        }else if(i == 2){
+                            setLocale("kk");
+                            recreate();
+                        }
+                    }
+                });
+                diolag.create();
+                diolag.show();
+            }
+        });
     }
+
+    void setLocale(String lan){
+        Locale locale = new Locale(lan);
+        Configuration configuration = new Configuration();
+        Locale.setDefault(locale);
+        configuration.setLocale(locale);
+        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getSharedPreferences("Language_set", MODE_PRIVATE).edit();
+        editor.putString("app_language", lan).apply();
+    }
+
+    void loadLocale(){
+        SharedPreferences pre = getSharedPreferences("Language_set", Activity.MODE_PRIVATE);
+        setLocale(pre.getString("app_language", Locale.getDefault().getLanguage()));
+    }
+
+    void imageLan(String lan){
+        if(lan.equals("en")) {
+            languageBtn.setImageResource(R.drawable.eng_flag);
+        }
+        else if(lan.equals("ru")) languageBtn.setImageResource(R.drawable.rus_flag);
+        else if(lan.equals("kk"))languageBtn.setImageResource(R.drawable.kaz_flag);
+    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

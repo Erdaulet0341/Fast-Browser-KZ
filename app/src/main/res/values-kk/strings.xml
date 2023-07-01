@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fast Browser KZ</string>
+    <string name="search_here_anything">Қалағаныңды ізде )))</string>
+    <string name="history">Іздеу тарихы</string>
+    <string name="clear_all_histories">Барлығын өшіру</string>
+    <string name="search_by_url">Сілтеме бойынша іздеу ...</string>
+    <string name="time_time">Іздеу уақыты</string>
+    <string name="empty_history">Іздеу тарихы бос</string>
+    <string name="can_not_find">Ештеңе таппадық</string>
+    <string name="yes">Ия</string>
+    <string name="no">Жоқ</string>
+    <string name="title_delete">Барлық тарихты өшіру?</string>
+    <string name="sentence_delete">Сіз шыныменде барлық тарихты өшіруді қалайсызба? Қайта қалпына келтіру мүмкін болмайды!</string>
+</resources>

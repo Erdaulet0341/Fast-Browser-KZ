@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fast Browser KZ</string>
+    <string name="search_here_anything">Искать что угодно ...</string>
+    <string name="history">История</string>
+    <string name="clear_all_histories">Очистить исторую</string>
+    <string name="search_by_url">Искать по ссылкy ...</string>
+    <string name="time_time">Время историй</string>
+    <string name="empty_history">Ваша история пустой</string>
+    <string name="can_not_find">Ничего не найдено</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="title_delete">Очистить всю историю?</string>
+    <string name="sentence_delete">Вы действительно хотите удалить всю историю? Восстановление будет невозможно!</string>
+</resources>

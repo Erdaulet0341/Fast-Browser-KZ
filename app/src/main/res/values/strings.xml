@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Fast Browser KZ</string>
+    <string name="search_here_anything">Search here anything ...</string>
+    <string name="history">History</string>
+    <string name="clear_all_histories">Clear all histories</string>
+    <string name="search_by_url">Search by URL here...</string>
+    <string name="time_time">Time of history</string>
+    <string name="empty_history">Empty history</string>
+    <string name="can_not_find">Could not find any URL!</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="title_delete">Clear all histories?</string>
+    <string name="sentence_delete">Are you sure you want to delete all histories? It cannot be restored!</string>
+
 </resources>

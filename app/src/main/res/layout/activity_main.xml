@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="9dp"
-        android:layout_marginEnd="9dp"
+        android:layout_marginEnd="60dp"
         android:layout_marginBottom="9dp"
         android:background="@drawable/rounded_corner"
         android:padding="9dp">
@@ -38,7 +38,7 @@
             android:layout_toStartOf="@id/clearIcon"
             android:background="@null"
             android:drawableLeft="@drawable/baseline_search_24"
-            android:hint="Search here anything ..."
+            android:hint="@string/search_here_anything"
             android:imeOptions="actionGo"
             android:inputType="textUri"
             android:textSize="15sp" />
@@ -52,6 +52,17 @@
             android:src="@drawable/baseline_clear_24" />
 
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/language"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="10dp"
+        android:layout_alignParentEnd="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/eng_flag" />
 
     <View
         android:id="@+id/divider1"
