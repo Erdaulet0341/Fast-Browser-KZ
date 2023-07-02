@@ -1,3 +1,3 @@
-# Fast Browser KZ
+# Fast Browser KZ 🇰🇿
 
 fds
